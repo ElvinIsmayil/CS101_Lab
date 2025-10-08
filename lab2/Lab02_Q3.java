@@ -1,6 +1,14 @@
+/*
+ * This is a program which asks an input from the user 
+ * and then outputs the information in necessary format
+ * 
+ * @author Elvin Ismayil (22501036)
+ * @version 08.10.2025 10:00
+ */
 import java.util.Scanner;
 
 public class Lab02_Q3 {
+    @SuppressWarnings("ConvertToTryWithResources")
     public static void main(String[] args) {
          Scanner reader = new Scanner(System.in);
 

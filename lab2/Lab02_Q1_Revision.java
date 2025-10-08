@@ -1,15 +1,15 @@
 /*
- * This is a program which calculates the radius, cone, 
- * of the cone with the given formulas and then prints them out
+ * This is a program which calculates the radius, cone, and circumference
+ * of the base of the cone with the given formulas and then prints them out
  * 
  * @author Elvin Ismayil (22501036)
- * @version 07.10.2025 23:12
+ * @version 08.10.2025 09:52
  */
 import java.util.Scanner;
 
-public class Lab02_Q1 {
+public class Lab02_Q1_Revision {
     @SuppressWarnings("ConvertToTryWithResources")
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
 
         // Ask the user to enter the volume of the cone
@@ -28,11 +28,19 @@ public class Lab02_Q1 {
         // A = πr(r + √(h² + r²))
         double surfaceArea = Math.PI * radius * (radius + Math.sqrt(Math.pow(height, 2) + Math.pow(radius, 2)));
 
+        // Calculate the circumference of the base of the cone using the formula:
+        // C = 2πr
+        double circumference = 2 * Math.PI * radius;
+
         // Display the radius with 1 decimal place and left-aligned text
         System.out.printf("%-50s %5.1f%n", "The radius of the cone is: ", radius);
 
         // Display the surface area with 1 decimal place and left-aligned text
         System.out.printf("%-50s %5.1f%n", "The surface area of the cone is: ", surfaceArea);
+
+
+        // Display the circumference of the base of the cone with 1 decimal place and left-aligned text
+        System.out.printf("%-50s %5.1f%n", "The circumference of the base of the cone is: ", circumference);
 
         // Close the Scanner to prevent memory leak
         reader.close();
