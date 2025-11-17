@@ -9,7 +9,7 @@ public class Lab01_Q1
    
    public static void main( String args[] ) 
    {
-      // Constants
+      // Constantsx
       final double GRADE_PERCENT = 15.0;  // grading policy
       final int LAB_COUNT = 9;  
       final double GRADE_PER_LAB = GRADE_PERCENT / LAB_COUNT ;
