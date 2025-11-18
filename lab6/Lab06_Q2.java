@@ -1,12 +1,11 @@
 /**
- * This is a simple task scheduler program where the user 
- * can do multiple operations on tasks such as addition, deletion, 
+ * This is a simple task scheduler program where the user
+ * can do multiple operations on tasks such as addition, deletion,
  * search, update, and view all.
- * 
+ *
  * @author Elvin Ismayil (22501036)
  * @version 17.11.2025 15:48
  */
-
 package lab6;
 
 import java.util.ArrayList;
@@ -24,32 +23,59 @@ public class Lab06_Q2 {
     static Scanner input = new Scanner(System.in);
 
     public static void addTask(String name, int priority) {
+        if(name.isBlank()){
+            System.out.println("Error: Empty name");
+            return;
+        }
+        if (priority < 1 || priority > 3) {
+            System.out.println("Error: Priorities outside 1-3");
+            return;
+        }
+
         // If the array is not full yet we continue adding tasks there 
         if (!switchedToList) {
-            for (int i = 0; i < taskNames.length; i++) {
-                if (taskNames[i] == null) {
-                    taskNames[i] = name;
-                    priorities[i] = priority;
-                    System.out.println("Task added successfully!");
-                    taskCount++;
-                    return;
-                }
+            // We check for duplicate name here
+              for (int i = 0; i < taskNames.length; i++) {
+            if (taskNames[i] != null && taskNames[i].equalsIgnoreCase(name)) {
+                System.out.println("Error: Task name already exists.");
+                return;
             }
-            // When the array is full we switch to arraylist and change the 
-            // boolean switchedToList to true and then move all the tasks from the 
-            // array to arraylist
+        }
+
+        // When the array is full we switch to arraylist and change the 
+        // boolean switchedToList to true and then move all the tasks from the 
+        // array to arraylist
+        if(taskCount == taskNames.length){
             switchedToList = true;
             System.out.println("Array full! Switching to dynamic ArrayList...");
             for (int i = 0; i < taskNames.length; i++) {
                 taskNamesList.add(taskNames[i]);
                 prioritiesList.add(priorities[i]);
             }
+
         }
-        // If we have switched to arrayList then we use methods for it here
-        taskNamesList.add(name);
-        prioritiesList.add(priority);
-        System.out.println("Task added successfully!");
-        taskCount++;
+        
+        // Here we add the tasks to the array since its not full yet
+        for (int i = 0; i < taskNames.length; i++) {
+                if(taskNames[i] == null){
+                    if (taskNames[i] == null) {
+                        taskNames[i] = name;
+                        priorities[i] = priority;
+                        System.out.println("Task added successfully!");
+                        taskCount++;
+                        return;
+                    }
+                }
+            }
+            
+            // If we have switched to arrayList then we use methods for it here
+        if(switchedToList){
+        }
+            taskNamesList.add(name);
+            prioritiesList.add(priority);
+            System.out.println("Task added successfully!");
+            taskCount++;
+        }
     }
 
     public static void removeTask(String name) {
@@ -77,46 +103,54 @@ public class Lab06_Q2 {
 
     public static void updateTaskPriority(String name, int newPriority) {
 
-    for (int i = 0; i < taskNames.length; i++) {
-        if (taskNames[i] != null && taskNames[i].equals(name)) {
-
-            int current = priorities[i];
-            System.out.println("Current priority: " + current);
-
-            while (newPriority == current) {
-                System.out.println("New priority cannot be the same as the current priority. Try again.");
-                System.out.print("Enter priority (1=High, 2=Medium, 3=Low): ");
-                newPriority = input.nextInt();
-            }
-
-            priorities[i] = newPriority;
-            System.out.println("Priority updated successfully!");
+         if (newPriority < 1 || newPriority > 3) {
+            System.out.println("Error: Priorities outside 1-3");
             return;
         }
-    }
 
-    for (int i = 0; i < taskNamesList.size(); i++) {
-        if (taskNamesList.get(i).equals(name)) {
+        // We search inside Array here
+        for (int i = 0; i < taskNames.length; i++) {
+            if (taskNames[i] != null && taskNames[i].equals(name)) {
 
-            int current = prioritiesList.get(i);
-            System.out.println("Current priority: " + current);
+                int current = priorities[i];
+                System.out.println("Current priority: " + current);
 
-            while (newPriority == current) {
-                System.out.println("New priority cannot be the same as the current priority. Try again.");
-                System.out.print("Enter priority (1=High, 2=Medium, 3=Low): ");
-                newPriority = input.nextInt();
+                while (newPriority == current) {
+                    System.out.println("New priority cannot be the same as the current priority. Try again.");
+                    System.out.print("Enter priority (1=High, 2=Medium, 3=Low): ");
+                    newPriority = input.nextInt();
+                }
+
+                priorities[i] = newPriority;
+                System.out.println("Priority updated successfully!");
+                return;
             }
-
-            prioritiesList.set(i, newPriority);
-            System.out.println("Priority updated successfully!");
-            return;
         }
-    }
 
-    System.out.println("Task not found!");
-}
+        // We search inside Array List here
+        for (int i = 0; i < taskNamesList.size(); i++) {
+            if (taskNamesList.get(i).equals(name)) {
+
+                int current = prioritiesList.get(i);
+                System.out.println("Current priority: " + current);
+
+                while (newPriority == current) {
+                    System.out.println("New priority cannot be the same as the current priority. Try again.");
+                    System.out.print("Enter priority (1=High, 2=Medium, 3=Low): ");
+                    newPriority = input.nextInt();
+                }
+
+                prioritiesList.set(i, newPriority);
+                System.out.println("Priority updated successfully!");
+                return;
+            }
+        }
+
+        System.out.println("Task not found!");
+    }
 
     public static void searchTask(String name) {
+        // We search inside Array
         for (int i = 0; i < taskNames.length; i++) {
             if (taskNames[i] != null && taskNames[i].equals(name)) {
                 System.out.println("Task found. " + "Priority: " + priorities[i]);
@@ -124,6 +158,7 @@ public class Lab06_Q2 {
             }
         }
 
+        // We search inside Array List
         for (int i = 0; i < taskNamesList.size(); i++) {
             if (taskNamesList.get(i).equals(name)) {
                 System.out.println("Task found. " + "Priority: " + priorities[i]);
@@ -141,16 +176,16 @@ public class Lab06_Q2 {
 
         } else {
             System.out.println("Tasks:");
+            // Array
             for (int i = 0; i < taskNames.length; i++) {
                 if (taskNames[i] != null) {
                     System.out.println(i + 1 + ". " + taskNames[i] + " (Priority " + priorities[i] + ")");
                 }
             }
 
+            // Array List
             for (int i = 0; i < taskNamesList.size(); i++) {
-                if (taskNamesList.get(i) != null) {
                     System.out.println(i + 1 + ". " + taskNamesList.get(i) + " (Priority " + prioritiesList.get(i) + ")");
-                }
             }
         }
 
@@ -169,6 +204,7 @@ public class Lab06_Q2 {
         priorities = new int[taskCapacity];
 
         while (true) {
+            // Menu options
             System.out.println("=== Task Scheduler ===");
             System.out.println("1. Add Task");
             System.out.println("2. Remove Task");
@@ -217,7 +253,6 @@ public class Lab06_Q2 {
             if (option == 6) {
                 exit();
             }
-
         }
     }
 
